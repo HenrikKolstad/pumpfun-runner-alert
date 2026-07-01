@@ -6,17 +6,18 @@ cap (default **$1,000,000**) within a time window of launch (default **60 min**)
 All data sources are **free** — no API keys, no wallet, no paid feeds.
 
 ```
-PumpPortal WS (free)  ──▶  new tokens (start the 1h clock)
-                      ──▶  migrations (token now has a DEX pair)
-                               │
-DexScreener API (free) ◀───────┘  poll USD market cap every 15s
-                               │
-        mcap ≥ $1M  &  age < 60m  &  liquidity ≥ $20k  ──▶  🔔 Discord webhook
+PumpPortal WS (free)   ──▶  every new token (starts its 1h clock)
+                                 │
+DexScreener API (free)  ◀────────┘  poll market cap of ALL tracked tokens
+                                 │
+     mcap ≥ target  &  age < window  &  liquidity ≥ floor  ──▶  🔔 Discord webhook
 ```
 
-Why gate on migration: a token can't reach $1M on the bonding curve (it
-graduates far earlier), so only graduated tokens can hit $1M — which keeps the
-polling tiny and the whole thing free.
+It does **not** rely on pump.fun "migration" events — that stream proved
+unreliable (measured ~2 events in 8 minutes while 3 tokens hit $500k). Instead it
+tracks every new token and reads market caps straight from DexScreener, which
+indexes pump.fun tokens directly. State is persisted to disk, so restarts don't
+drop in-flight tokens.
 
 ## Setup (2 minutes)
 
