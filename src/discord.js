@@ -22,7 +22,8 @@ function rugField(rug, mint) {
   return lines.join('\n');
 }
 
-export async function sendAlert({ symbol, name, mint, mcap, ageMin, liquidityUsd, url, meta = {}, rug = null }) {
+export async function sendAlert({ symbol, name, mint, mcap, ageMin, ageBasis = 'launch', liquidityUsd, url, meta = {}, rug = null }) {
+  const ageWord = ageBasis === 'graduation' ? 'since graduating' : 'from launch';
   // "What it's about": the creator's own blurb.
   const blurb = (meta.description || '').replace(/\s+/g, ' ').trim();
   const about = blurb ? (blurb.length > 350 ? blurb.slice(0, 349) + '…' : blurb) : '_no description provided_';
@@ -47,7 +48,7 @@ export async function sendAlert({ symbol, name, mint, mcap, ageMin, liquidityUsd
 
   const embed = {
     title: `🚀 $${symbol || '?'} hit $${fmt(mcap)} market cap`,
-    description: `**${name || symbol}** reached **$${fmt(mcap)}** in **${ageMin.toFixed(0)} min** from launch.`,
+    description: `**${name || symbol}** reached **$${fmt(mcap)}** in **${ageMin.toFixed(0)} min** ${ageWord}.`,
     color: 0x00e5a0,
     fields,
     timestamp: new Date().toISOString(),

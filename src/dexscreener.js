@@ -32,6 +32,7 @@ export async function getMarketData(mints) {
         liquidityUsd,
         priceUsd: Number(p.priceUsd || 0),
         dexId: p.dexId,
+        pairCreatedAt: p.pairCreatedAt ? Number(p.pairCreatedAt) : null, // ~graduation time
         url: p.url || `https://dexscreener.com/solana/${mint}`,
       });
     }
