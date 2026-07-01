@@ -1,0 +1,13 @@
+{
+  "name": "pumpfun-runner-alert",
+  "version": "1.0.0",
+  "description": "Alerts to Discord when a pump.fun token reaches a target market cap within a time window of launch.",
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file=.env index.js",
+    "dev": "node --env-file=.env index.js",
+    "test-alert": "node --env-file=.env test-alert.js"
+  },
+  "engines": { "node": ">=20" },
+  "license": "MIT"
+}
